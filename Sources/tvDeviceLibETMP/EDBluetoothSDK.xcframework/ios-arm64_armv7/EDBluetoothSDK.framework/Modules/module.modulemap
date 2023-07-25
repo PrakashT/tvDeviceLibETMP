@@ -1,0 +1,11 @@
+framework module EDBluetoothSDK {
+  umbrella header "EDBluetoothSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module EDBluetoothSDK.Swift {
+    header "EDBluetoothSDK-Swift.h"
+    requires objc
+}

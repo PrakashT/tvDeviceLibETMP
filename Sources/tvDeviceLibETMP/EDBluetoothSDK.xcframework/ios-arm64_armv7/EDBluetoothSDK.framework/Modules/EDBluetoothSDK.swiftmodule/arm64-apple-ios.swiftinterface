@@ -1,0 +1,258 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name EDBluetoothSDK
+import CoreBluetooth
+@_exported import EDBluetoothSDK
+import Foundation
+import Swift
+extension Data {
+  public func hexEncodedString() -> Swift.String
+}
+@_hasMissingDesignatedInitializers @objc public class EDSemanticVersion : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
+@_inheritsConvenienceInitializers @objc public class Utils : ObjectiveC.NSObject {
+  @objc public static func getLastConnectedPeripheralType() -> EDBluetoothSDK.EDBLEDeviceType
+  @objc public static func getLastConnectedPeripheral(bleManager: EDBluetoothSDK.EDBLEManager) -> CoreBluetooth.CBPeripheral?
+  @objc(setLastConnectedPeripheral:bleManager:) public static func setLastConnected(peripheral: CoreBluetooth.CBPeripheral, bleManager: EDBluetoothSDK.EDBLEManager)
+  @objc public static func forgetLastConnectedPeripheral()
+  @objc public static func getFwVersionFrom(_ data: Foundation.Data) -> Swift.String?
+  @objc public static func getANCSettingFrom(_ data: Foundation.Data) -> Swift.Bool
+  @objc public static func getBatteryPctFrom(_ data: Foundation.Data) -> Swift.Int
+  @objc public static func parseSemanticVersionString(_ strVersion: Swift.String) -> EDBluetoothSDK.EDSemanticVersion?
+  @objc public static func isGreater(lhs: EDBluetoothSDK.EDSemanticVersion, rhs: EDBluetoothSDK.EDSemanticVersion) -> Swift.Bool
+  @objc public static func isGreaterOrEqual(lhs: EDBluetoothSDK.EDSemanticVersion, rhs: EDBluetoothSDK.EDSemanticVersion) -> Swift.Bool
+  @objc deinit
+  @objc override dynamic public init()
+}
+@_inheritsConvenienceInitializers @objc public class EDRecordingDataPrefixer : ObjectiveC.NSObject {
+  @objc public var audioPrefix: Foundation.Data {
+    @objc get
+  }
+  @objc public var ecgPrefix: Foundation.Data {
+    @objc get
+  }
+  @objc public func addAudioValue(_ value: Swift.Int16)
+  @objc public func addECGValue(_ value: Swift.Int16)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public enum EDOTAManagerState {
+  case notStarted
+  case peripheralSet
+  case bootloaderCharacteristicFound
+  case parsedOTAFile
+  case enterBootloader
+  case transfering(pct: Swift.Float)
+  case verify
+}
+@objc public enum EDOTAError : Swift.Int, Swift.Error {
+  case notReady
+  case fileTransferFailed
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+  public static var _nsErrorDomain: Swift.String {
+    get
+  }
+}
+public protocol EDOTAManagerDelegate : AnyObject {
+  func otaManagerChangedState(from: EDBluetoothSDK.EDOTAManagerState, to: EDBluetoothSDK.EDOTAManagerState)
+}
+@objc final public class EDOTAManager : ObjectiveC.NSObject {
+  weak final public var delegate: EDBluetoothSDK.EDOTAManagerDelegate?
+  @objc final public var otaInProgress: Swift.Bool
+  final public var otaState: EDBluetoothSDK.EDOTAManagerState {
+    get
+  }
+  @objc public init(bleManager: EDBluetoothSDK.EDBLEManager, deviceProtocolManager: EDBluetoothSDK.EDDeviceProtocolManager)
+  @objc final public func setOTAPeripheralUUIDInDFUMode(peripheralUUID: Foundation.UUID, successBlock: @escaping () -> Swift.Void)
+  @objc final public func initializeFileTransfer_v1(header: Foundation.NSMutableDictionary?, appInfo: [Swift.AnyHashable : Any]?, rowData: [Any]?, success: @escaping () -> Swift.Void, failure: @escaping (EDBluetoothSDK.EDOTAError) -> Swift.Void)
+  @objc(switchToDFUModeForPeripheralUUID:) final public func switchToDFUModeFor(peripheralUUID: Foundation.UUID)
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension EDOTAManager : EDBluetoothSDK.EDBLEManagerDelegate {
+  @objc final public func bleManagerDiscoveredCharacteristicsFor(_ peripheral: CoreBluetooth.CBPeripheral, service: CoreBluetooth.CBService)
+  @objc final public func bleManagerReceived(data: Foundation.Data?, peripheral: CoreBluetooth.CBPeripheral, characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc final public func bleManagerUpdatedState(_ state: CoreBluetooth.CBManagerState)
+  @objc final public func bleManagerDiscoveredPeripheral(_ peripheral: CoreBluetooth.CBPeripheral, type: EDBluetoothSDK.EDBLEDeviceType, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+  @objc final public func bleManagerDiscoveredPeripheral(_ peripheral: CoreBluetooth.CBPeripheral, characteristic: CoreBluetooth.CBCharacteristic)
+  @objc final public func bleManagerConnectedToPeripheral(_ peripheral: CoreBluetooth.CBPeripheral)
+  @objc final public func bleManagerFailedToConnectToPeripheral(_ peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc final public func bleManagerDidDisconnectFromPeripheral(_ peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc final public func bleManagerUpdatedNotificationStateForCharacteristic(_ characteristic: CoreBluetooth.CBCharacteristic, peripheral: CoreBluetooth.CBPeripheral)
+}
+@_inheritsConvenienceInitializers @objc public class EDPeripheralMetaData : ObjectiveC.NSObject {
+  @objc public var fwVersion: Swift.String
+  @objc deinit
+  @objc override dynamic public init()
+}
+@_hasMissingDesignatedInitializers public class EDSwiftyCircularBuffer<T> where T : ObjectiveC.NSObjectProtocol {
+  @objc deinit
+}
+@objc public enum EDLogLevel : Swift.Int {
+  case none = 0
+  case debug
+  case info
+  case error
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc public class EDLogger : ObjectiveC.NSObject {
+  @objc public static var level: EDBluetoothSDK.EDLogLevel {
+    @objc get
+    @objc set(value)
+  }
+  @objc public static var logInFiles: Swift.Bool
+  @objc public static func setup()
+  @objc public static func debug(_ msg: Swift.String)
+  @objc public static func info(_ msg: Swift.String)
+  @objc public static func error(_ msg: Swift.String)
+  @objc public static func logInFile(level: EDBluetoothSDK.EDLogLevel = .debug, msg: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public enum EDBLEDeviceType : Swift.Int {
+  case unknown
+  case coreDuo
+  case jumperPulseOximeter
+  case qnScale
+  case core2DFU
+  case core2Data
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension UInt32 {
+  public var bigEndianByteArray: [Swift.UInt8] {
+    get
+  }
+  public var littleEndianByteArray: [Swift.UInt8] {
+    get
+  }
+  public static func fromLittleEndianBytes(_ bytes: [Swift.UInt8]) -> Swift.UInt32?
+}
+@objc final public class EDDeviceProtocolManager : ObjectiveC.NSObject {
+  @objc public init(bleManager: EDBluetoothSDK.EDBLEManager)
+  @objc final public func sendSwitchToBootloaderModeCommand(peripheralUUID: Foundation.UUID)
+  @objc(setANCOn:peripheralUUID:) final public func setANC(isOn: Swift.Bool, peripheralUUID: Foundation.UUID)
+  @objc final public func setVolumeLevel(_ level: Swift.Int, peripheralUUID: Foundation.UUID)
+  @objc final public func setFilterMode(_ mode: EDBluetoothSDK.EDCore2PeripheralFilterMode, peripheralUUID: Foundation.UUID)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public enum EDBLEReconnectionPolicy : Swift.Int {
+  case noReconnect
+  case autoReconnect
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum EDPeripheralState : Swift.Int {
+  case connected = 0
+  case userInitiatedDisconnect
+  case disconnected
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol EDBLEManagerDelegate {
+  @objc func bleManagerUpdatedState(_ state: CoreBluetooth.CBManagerState)
+  @objc func bleManagerDiscoveredPeripheral(_ peripheral: CoreBluetooth.CBPeripheral, type: EDBluetoothSDK.EDBLEDeviceType, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+  @objc(bleManagerDiscoveredCharacteristicsForPeripheral:service:) func bleManagerDiscoveredCharacteristicsFor(_ peripheral: CoreBluetooth.CBPeripheral, service: CoreBluetooth.CBService)
+  @objc func bleManagerDiscoveredPeripheral(_ peripheral: CoreBluetooth.CBPeripheral, characteristic: CoreBluetooth.CBCharacteristic)
+  @objc func bleManagerConnectedToPeripheral(_ peripheral: CoreBluetooth.CBPeripheral)
+  @objc func bleManagerFailedToConnectToPeripheral(_ peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc func bleManagerDidDisconnectFromPeripheral(_ peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc func bleManagerReceived(data: Foundation.Data?, peripheral: CoreBluetooth.CBPeripheral, characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc func bleManagerUpdatedNotificationStateForCharacteristic(_ characteristic: CoreBluetooth.CBCharacteristic, peripheral: CoreBluetooth.CBPeripheral)
+}
+@objc public class EDBLEManager : ObjectiveC.NSObject {
+  @objc public var centralManagerState: CoreBluetooth.CBManagerState {
+    @objc get
+  }
+  @objc public convenience init(types: Swift.Set<EDBluetoothSDK.EDBLEDeviceType.RawValue>)
+  public init(types: Swift.Set<EDBluetoothSDK.EDBLEDeviceType>)
+  @objc public var core2VolumeCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2ADPCMCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2FilterCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2RecordingStateCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var coreDuoCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2ANCCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2RecordingCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2RecordingDurationCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2DFUCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2DeviceInfoCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2BatteryLevelCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2DFUStartCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public var core2PairingFailureCharacteristic: CoreBluetooth.CBUUID {
+    @objc get
+  }
+  @objc public func startScan(scanTypes: Swift.Set<EDBluetoothSDK.EDBLEDeviceType.RawValue>, statusHandler: @escaping (Swift.Bool) -> Swift.Void)
+  public func startScan(scanTypes: Swift.Set<EDBluetoothSDK.EDBLEDeviceType>, statusHandler: @escaping (Swift.Bool) -> Swift.Void)
+  @objc public func stopScan()
+  @objc public func addDelegate(_ delegate: EDBluetoothSDK.EDBLEManagerDelegate, type: EDBluetoothSDK.EDBLEDeviceType)
+  @objc public func removeDelegate(_ delegate: EDBluetoothSDK.EDBLEManagerDelegate, type: EDBluetoothSDK.EDBLEDeviceType)
+  @objc public func connectPeripheral(uuid: Foundation.UUID)
+  @objc public func cancelConnection(peripheralUUID: Foundation.UUID)
+  @objc public func registerForNotifications(peripheralUUID: Foundation.UUID, characteristicUUID: CoreBluetooth.CBUUID)
+  @objc public func unregisterForNotifications(peripheralUUID: Foundation.UUID, characteristicUUID: CoreBluetooth.CBUUID)
+  @objc public func write(data: Foundation.Data, peripheralUUID: Foundation.UUID, characteristicUUID: CoreBluetooth.CBUUID, type: CoreBluetooth.CBCharacteristicWriteType = CBCharacteristicWriteType.withoutResponse)
+  @objc(readPeripheralUUID:characteristicUUID:) public func read(peripheralUUID: Foundation.UUID, characteristicUUID: CoreBluetooth.CBUUID)
+  @objc public func getConnectedPeripheralsFor(type: EDBluetoothSDK.EDBLEDeviceType) -> [Foundation.UUID]
+  @objc public func retrievePeripherals(withIdentifiers identifiers: [Foundation.UUID]) -> [CoreBluetooth.CBPeripheral]
+  @objc(discoverAllServicesWithPeripheralUUID:) public func discoverAllServices(peripheralUUID: Foundation.UUID)
+  @objc(getTypeForPeripheral:) public func getEDPeripheralType(peripheral: CoreBluetooth.CBPeripheral) -> EDBluetoothSDK.EDPeripheralType
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension EDBLEManager : CoreBluetooth.CBCentralManagerDelegate {
+  @objc dynamic public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didFailToConnect peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+}
+extension EDBLEManager : CoreBluetooth.CBPeripheralDelegate {
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: Swift.Error?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: Swift.Error?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateNotificationStateFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+}
